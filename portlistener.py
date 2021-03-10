@@ -1,24 +1,29 @@
-'''    Simple socket server using threads
+'''    Portlistner
 '''
 import socket
 import sys
-HOST = '0.0.0.0'   # Symbolic name, meaning all available interfaces
-PORT = 5298 # Arbitrary non-privileged port
+
+PHOST = raw_input('Please enter IP address - generally use 0.0.0.0:      ')
+PPORT = input('Please enter PORT number:      ')
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-print 'Socket created'
-#Bind socket to local host and port
+        
+print ''
+print 'Socket created - on IP: ', PHOST, 'and Port: ', PPORT
+
 try:
-    s.bind((HOST, PORT))
+    s.bind((PHOST, PPORT))
 except socket.error as msg:
     print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
     sys.exit()
-print 'Socket bind complete'
-#Start listening on socket
+print 'Socket bind complete and listening'
+
 s.listen(10)
-print 'Socket now listening'
-#now keep talking with the client
+
 while 1:
-    #wait to accept a connection - blocking call
+
     conn, addr = s.accept()
-    print 'Connected with ' + addr[0] + ':' + str(addr[1])
+    print 'Connection from ' + addr[0] + ':' + str(addr[1])
+    
 s.close()
+
